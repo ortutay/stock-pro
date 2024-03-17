@@ -7,7 +7,6 @@ from bs4 import BeautifulSoup
 pp = pprint.PrettyPrinter()
 
 session = requests_cache.CachedSession('sec')
-# requests_cache.install_cache('sec_cache', expire_after=7*24*3600)
 
 
 def symbol_to_cik(query):
@@ -77,14 +76,13 @@ def load_submissions(cik, type_filter, pull_documents):
 
 
 def main():
+    # cik = 320193
     cik = symbol_to_cik('AAPL')
 
     fetch_submissions(cik, ['10-Q', '10-K'], True)
     items = load_submissions(cik, ['10-Q', '10-K'], True)
     pp.pprint(items[0])
 
-    # cik = 320193
-    # subs = get_submissions(cik, ['10-Q', '10-K'], True)
 
-
-main()
+if __name__ == '__main__':
+    main()
