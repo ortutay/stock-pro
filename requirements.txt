@@ -1,0 +1,13 @@
+attrs==23.2.0
+beautifulsoup4==4.12.3
+cattrs==23.2.3
+certifi==2024.2.2
+charset-normalizer==3.3.2
+idna==3.6
+platformdirs==4.2.0
+requests==2.31.0
+requests-cache==1.2.0
+six==1.16.0
+soupsieve==2.5
+url-normalize==1.4.3
+urllib3==2.2.1
