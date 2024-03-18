@@ -29,7 +29,18 @@ def symbol_to_cik(query):
             return int(hit['_id'])
 
 
-def fetch_submissions(cik, type_filter, pull_documents):
+def fetch_submissions(cik, type_filter, pull_documents, read_if_cached=True):
+    file_key = 'data/%010d-%s-%s.pkl' % (cik, ':'.join(type_filter), pull_documents)
+    print("Checking for cached file in ", file_key)
+    if read_if_cached:
+        print("Checking for cached file in ", file_key)
+        try:
+            print("Found, reading from", file_key)
+            with open(file_key, 'rb') as f:
+                return pickle.load(f)
+        except FileNotFoundError:
+            pass
+
     headers = {'User-Agent': 'test@example.com'}
     url = f'https://data.sec.gov/submissions/CIK{cik:010d}.json'
     print('url', url)
@@ -62,8 +73,8 @@ def fetch_submissions(cik, type_filter, pull_documents):
 
         items.append(item)
 
-    key = 'data/%010d-%s-%s.pkl' % (cik, ':'.join(type_filter), pull_documents)
-    with open(key, 'wb') as f:
+    with open(file_key, 'wb') as f:
+        print("Saving to ", file_key)
         pickle.dump(items, f)
 
     return items
@@ -81,6 +92,8 @@ def main():
 
     fetch_submissions(cik, ['10-Q', '10-K'], True)
     items = load_submissions(cik, ['10-Q', '10-K'], True)
+    import pdb
+    pdb.set_trace()
     pp.pprint(items[0])
 
 
